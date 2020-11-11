@@ -9,5 +9,16 @@ h3 {
     color: rgb(56, 55, 55);
 }
 
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+h3, 
+h4 {
+    font-weight: 400;
+    color: rgb(119, 119, 119)
+}
+
 @import './song';
 @import './player';
+@import './library'
