@@ -4,7 +4,7 @@ import Player from './components/Player';
 import Song from './components/Song';
 import Library from './components/Library';
 import './styles/app.scss';
-import data from './util';
+import data from './data';
 
 function App() {
 
@@ -26,7 +26,10 @@ function App() {
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying} 
         currentSong={currentSong}
+        setCurrentSong={setCurrentSong}
         audioRef={audioRef} 
+        songs={songs}
+        setSongs={setSongs}
       />
       <Library 
         songs={songs} 

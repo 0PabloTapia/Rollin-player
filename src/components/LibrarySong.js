@@ -1,8 +1,8 @@
-
+import {playAudio} from '../util';
 
 const LibrarySong = ( {song, songs, setCurrentSong, id, isPlaying, audioRef, setSongs} ) => {
     // Deja la canción seleccionada en la librería cambiando su clase en base al boolean de los objetos 
-    //  que están en el arreglo util.js
+    //  que están en el arreglo data.js
     const songSelectHandler = () => {
         setCurrentSong(song);
 
@@ -21,14 +21,7 @@ const LibrarySong = ( {song, songs, setCurrentSong, id, isPlaying, audioRef, set
         })
         setSongs(newSongs)
 
-        if(isPlaying) {
-            const playPromise = audioRef.current.play();
-            if(playPromise !== undefined) {
-                playPromise.then((audio) => {
-                    audioRef.current.play()
-                })
-            }
-        }
+        playAudio(isPlaying, audioRef)
     };
 
     return (
