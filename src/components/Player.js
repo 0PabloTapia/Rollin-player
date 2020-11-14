@@ -63,13 +63,14 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
             await new Promise(r => setTimeout(r, 200));
             //al llegar al máximo, se devuelve a 0
             newIndex = (currentIndex + 1) % songs.length;
-            activeLibraryHandler((currentIndex + 1) % songs.length);
+            activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
             break;
         
           case "skip-back":
             await new Promise(r => setTimeout(r, 200));
             //al llegar a 0, se devuelve al máximo
             newIndex = (songs.length - 1 + currentIndex) % songs.length;
+            activeLibraryHandler(songs[(songs.length - 1 + currentIndex) % songs.length]);
             break;
             default: console.log('Error inesperado')
         }
@@ -87,7 +88,10 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
     const songEndHandler = async () => {
         let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
         await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+        activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
         if(isPlaying) audioRef.current.play();
+        
+        return;
     }
 
     const [songInfo, setSongInfo] = useState({
