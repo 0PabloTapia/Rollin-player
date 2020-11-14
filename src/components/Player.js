@@ -6,7 +6,7 @@ import {
     faForward,
     faPauseCircle 
    } from '@fortawesome/free-solid-svg-icons';
-import {playAudio} from '../util';
+
 
 const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef, songs, setSongs }) => {
 
@@ -54,17 +54,20 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
 
     
 
-    const skipTrackHandler =  (direction) => {
+    const skipTrackHandler = async (direction) => {
         let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
         let newIndex = 0;
         
         switch (direction) {
+
           case "skip-forward":
+            await new Promise(r => setTimeout(r, 200));
             //al llegar al máximo, se devuelve a 0
             newIndex = (currentIndex + 1) % songs.length;
             break;
         
           case "skip-back":
+            await new Promise(r => setTimeout(r, 200));
             //al llegar a 0, se devuelve al máximo
             newIndex = (songs.length - 1 + currentIndex) % songs.length;
             break;
@@ -72,7 +75,7 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
         }
     
         setCurrentSong(songs[newIndex]);
-        playAudio(isPlaying, audioRef);
+        if(isPlaying) audioRef.current.play();
       };
 
     const grabAndDrag =  (e) => {
@@ -81,12 +84,18 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
         console.log(e)
     }
 
+    const songEndHandler = async () => {
+        let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+        await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+        if(isPlaying) audioRef.current.play();
+    }
+
     const [songInfo, setSongInfo] = useState({
         currentTime: 0,
         duration: 0,
         animationPercentage: 0,
     });
-
+    //Animación input
     const trackAnim = {
         transform: `translateX(${songInfo.animationPercentage}%)`
     }
@@ -117,6 +126,7 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
             onLoadedMetadata={timeUpdateHandler} 
             ref={audioRef} 
             src={currentSong.audio}
+            onEnded={songEndHandler}
         ></audio>
     </div>
 

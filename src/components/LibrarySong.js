@@ -1,10 +1,10 @@
-import {playAudio} from '../util';
+
 
 const LibrarySong = ( {song, songs, setCurrentSong, id, isPlaying, audioRef, setSongs} ) => {
     // Deja la canción seleccionada en la librería cambiando su clase en base al boolean de los objetos 
     //  que están en el arreglo data.js
-    const songSelectHandler = () => {
-        setCurrentSong(song);
+    const songSelectHandler = async () => {
+        await setCurrentSong(song);
 
         const newSongs = songs.map((song) => {
             if(song.id === id) {
@@ -21,7 +21,7 @@ const LibrarySong = ( {song, songs, setCurrentSong, id, isPlaying, audioRef, set
         })
         setSongs(newSongs)
 
-        playAudio(isPlaying, audioRef)
+        if(isPlaying) audioRef.current.play();
     };
 
     return (
