@@ -40,6 +40,11 @@ input[type="range"]::-webkit-slider-thumb {
     height: 16px;
     width: 16px;
 }
+input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    background: transparent;
+    border: none;
+}
 
 .track {
     background: lightblue;
@@ -69,4 +74,10 @@ input[type="range"]::-webkit-slider-thumb {
     .playcontrol {
         width: 60%;
     }
+}
+
+.name {
+    position: absolute;
+    bottom: 0px;
+    font-size: 0.7rem;
 }

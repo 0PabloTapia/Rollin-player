@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
     faPlay, 
@@ -10,10 +10,9 @@ import {
 
 const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef, songs, setSongs }) => {
 
-    useEffect(() => {
-        
+    const activeLibraryHandler = (nextPrev) => {
         const newSongs = songs.map((song) => {
-            if(song.id === currentSong.id) {
+            if(song.id === nextPrev.id) {
                 return {
                     ...song, 
                     active: true
@@ -26,7 +25,7 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
             }
         });
         setSongs(newSongs);
-    }, [currentSong])
+    }
 
     const playSongHandler = () => {
      
@@ -64,6 +63,7 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
             await new Promise(r => setTimeout(r, 200));
             //al llegar al máximo, se devuelve a 0
             newIndex = (currentIndex + 1) % songs.length;
+            activeLibraryHandler((currentIndex + 1) % songs.length);
             break;
         
           case "skip-back":
@@ -121,6 +121,7 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
         <FontAwesomeIcon onClick={playSongHandler} className="play" size="2x" icon={isPlaying ? faPauseCircle : faPlay} />
         <FontAwesomeIcon onClick={() => skipTrackHandler('skip-forward')} className="skip-forward" size="2x" icon={faForward} />
         </div>
+        <div className="name"><footer>Created by 0PabloTapia</footer></div>
         <audio 
             onTimeUpdate={timeUpdateHandler} 
             onLoadedMetadata={timeUpdateHandler} 
