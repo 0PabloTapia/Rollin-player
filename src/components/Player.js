@@ -40,7 +40,6 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
         const roundedCurrent = Math.round(current);
         const roundedDuration = Math.round(duration);
         const animation = Math.round((roundedCurrent / roundedDuration) * 100)
-        console.log(animation)
 
         setSongInfo({...songInfo, currentTime: current, duration: duration, animationPercentage: animation})
     }
@@ -82,7 +81,6 @@ const Player = ({ currentSong, setCurrentSong, setIsPlaying, isPlaying, audioRef
     const grabAndDrag =  (e) => {
         audioRef.current.currentTime = e.target.value;
         setSongInfo({ ...songInfo, currentTime: e.target.value })
-        console.log(e)
     }
 
     const songEndHandler = async () => {
